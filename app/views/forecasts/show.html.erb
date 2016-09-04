@@ -1,13 +1,8 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Lat:</strong>
-  <%= @forecast.lat %>
-</p>
 
 <p>
-  <strong>Lng:</strong>
-  <%= @forecast.lng %>
+  The weather is <%= @current_weather.summary %> and <%= @current_weather.temperature %>
 </p>
 
 <%= link_to 'Edit', edit_forecast_path(@forecast) %> |

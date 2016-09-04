@@ -1,5 +1,62 @@
-<h1>New Forecast</h1>
+<!-- NEED A WAY TO GET GEOLOCATION TO NEXT PAGE -->
 
-<%= render 'form', forecast: @forecast %>
+<!DOCTYPE html>
+<html>
+<body>
 
-<%= link_to 'Back', forecasts_path %>
+<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+
+<p id="geoLocate"></p>
+
+<script>
+var x = document.getElementById("geoLocate");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+}
+</script>
+
+</body>
+</html>
+
+<!-- THIS FORM SHOULD BE A FORM THAT IF GEOLACATION IS NOT SUPPORTED, PROMPTS FOR A ZIP CODE
+AND TRANSLATES THAT TO LONG/LAT, THEN CARRIES ON -->
+
+<%= form_for(@forecast) do |f| %>
+  <% if @forecast.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@forecast.errors.count, "error") %> prohibited this @forecast from being saved:</h2>
+
+      <ul>
+      <% @forecast.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :lat %>
+    <%= f.text_field :lat %>
+  </div>
+
+  <div class="field">
+    <%= f.label :lng %>
+    <%= f.text_field :lng %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
